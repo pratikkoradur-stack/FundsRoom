@@ -12,6 +12,13 @@
 </head>
 <body class="welcome-body">
 
+  <!-- Floating Ambient Glow Blobs -->
+  <div class="ambient-blobs">
+    <div class="ambient-blob blob-1"></div>
+    <div class="ambient-blob blob-2"></div>
+    <div class="ambient-blob blob-3"></div>
+  </div>
+
   <!-- ==========================================
        LOADING SCREEN
        ========================================== -->
@@ -241,7 +248,7 @@
   <!-- ==========================================
        PRODUCT INTRODUCTION
        ========================================== -->
-  <section class="section introduction" id="introduction">
+  <section class="section introduction section-center" id="introduction">
     <div class="section-label">THE OPERATIONS LAYER</div>
     <h2 class="section-heading">
       Everything your wholesale<br>
@@ -255,6 +262,48 @@
   </section>
 
   <!-- ==========================================
+       INFINITE MARQUEE BANDS
+       ========================================== -->
+  <section class="marquee-section">
+    <div class="marquee-track marquee-track-left">
+      <div class="marquee-content">
+        <span>SALES MANAGEMENT</span><span class="marquee-divider">✦</span>
+        <span>INVENTORY CONTROL</span><span class="marquee-divider">✦</span>
+        <span>CRM AUTOMATION</span><span class="marquee-divider">✦</span>
+        <span>GST INVOICING</span><span class="marquee-divider">✦</span>
+        <span>ROLE-BASED ACCESS</span><span class="marquee-divider">✦</span>
+        <span>REAL-TIME ANALYTICS</span><span class="marquee-divider">✦</span>
+      </div>
+      <div class="marquee-content" aria-hidden="true">
+        <span>SALES MANAGEMENT</span><span class="marquee-divider">✦</span>
+        <span>INVENTORY CONTROL</span><span class="marquee-divider">✦</span>
+        <span>CRM AUTOMATION</span><span class="marquee-divider">✦</span>
+        <span>GST INVOICING</span><span class="marquee-divider">✦</span>
+        <span>ROLE-BASED ACCESS</span><span class="marquee-divider">✦</span>
+        <span>REAL-TIME ANALYTICS</span><span class="marquee-divider">✦</span>
+      </div>
+    </div>
+    <div class="marquee-track marquee-track-right" style="margin-top: 0.75rem;">
+      <div class="marquee-content">
+        <span>WHOLESALE OPERATIONS</span><span class="marquee-divider">✦</span>
+        <span>STOCK TRACKING</span><span class="marquee-divider">✦</span>
+        <span>CUSTOMER PIPELINE</span><span class="marquee-divider">✦</span>
+        <span>CHALLAN PROCESSING</span><span class="marquee-divider">✦</span>
+        <span>MULTI-ROLE PORTAL</span><span class="marquee-divider">✦</span>
+        <span>99.9% UPTIME</span><span class="marquee-divider">✦</span>
+      </div>
+      <div class="marquee-content" aria-hidden="true">
+        <span>WHOLESALE OPERATIONS</span><span class="marquee-divider">✦</span>
+        <span>STOCK TRACKING</span><span class="marquee-divider">✦</span>
+        <span>CUSTOMER PIPELINE</span><span class="marquee-divider">✦</span>
+        <span>CHALLAN PROCESSING</span><span class="marquee-divider">✦</span>
+        <span>MULTI-ROLE PORTAL</span><span class="marquee-divider">✦</span>
+        <span>99.9% UPTIME</span><span class="marquee-divider">✦</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
        MODULES SECTION
        ========================================== -->
   <section class="section modules-section" id="modules-section">
@@ -262,7 +311,7 @@
     <h2 class="section-heading">Built for every department.</h2>
 
     <div class="modules-grid">
-      <a href="login.html" class="module-card">
+      <a href="login.html" class="module-card glow-card tilt-card">
         <div class="module-number">01</div>
         <div class="module-info">
           <div class="module-title">CUSTOMERS</div>
@@ -273,7 +322,7 @@
         </div>
       </a>
 
-      <a href="login.html" class="module-card">
+      <a href="login.html" class="module-card glow-card tilt-card">
         <div class="module-number">02</div>
         <div class="module-info">
           <div class="module-title">PRODUCTS</div>
@@ -284,7 +333,7 @@
         </div>
       </a>
 
-      <a href="login.html" class="module-card">
+      <a href="login.html" class="module-card glow-card tilt-card">
         <div class="module-number">03</div>
         <div class="module-info">
           <div class="module-title">SALES</div>
@@ -295,7 +344,7 @@
         </div>
       </a>
 
-      <a href="login.html" class="module-card">
+      <a href="login.html" class="module-card glow-card tilt-card">
         <div class="module-number">04</div>
         <div class="module-info">
           <div class="module-title">INVOICES</div>
@@ -306,7 +355,7 @@
         </div>
       </a>
 
-      <a href="login.html" class="module-card">
+      <a href="login.html" class="module-card glow-card tilt-card">
         <div class="module-number">05</div>
         <div class="module-info">
           <div class="module-title">CRM FOLLOW-UPS</div>
@@ -397,7 +446,7 @@
         <p class="role-description">System and operations overview with full control</p>
       </div>
 
-      <div class="role-card">
+      <div class="role-card glow-card tilt-card">
         <div class="role-icon">
           <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         </div>
@@ -405,7 +454,7 @@
         <p class="role-description">Customers, sales challans and CRM pipeline</p>
       </div>
 
-      <div class="role-card">
+      <div class="role-card glow-card tilt-card">
         <div class="role-icon">
           <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12"/></svg>
         </div>
@@ -413,7 +462,7 @@
         <p class="role-description">Products, inventory and stock movement tracking</p>
       </div>
 
-      <div class="role-card">
+      <div class="role-card glow-card tilt-card">
         <div class="role-icon">
           <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>
         </div>

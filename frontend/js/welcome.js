@@ -446,6 +446,69 @@
 
 
   // ================================================
+  // 11. CURSOR-TRACKING GLOW BORDER ON CARDS
+  // ================================================
+  function initGlowCards() {
+    if (prefersReducedMotion) return;
+
+    document.querySelectorAll('.glow-card').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        card.style.setProperty('--glow-x', x + 'px');
+        card.style.setProperty('--glow-y', y + 'px');
+
+        // Update the ::before pseudo-element position via CSS custom properties
+        const beforeEl = card.querySelector(':scope');
+        if (beforeEl) {
+          beforeEl.style.cssText += `--glow-x: ${x}px; --glow-y: ${y}px;`;
+        }
+      });
+    });
+
+    // Inject the CSS variable-driven glow positioning
+    const style = document.createElement('style');
+    style.textContent = `
+      .glow-card::before {
+        left: var(--glow-x, 50%);
+        top: var(--glow-y, 50%);
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
+
+  // ================================================
+  // 12. 3D CARD TILT EFFECT
+  // ================================================
+  function initTiltCards() {
+    if (prefersReducedMotion) return;
+
+    document.querySelectorAll('.tilt-card').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+
+        const rotateX = ((y - centerY) / centerY) * -4; // max 4 degrees
+        const rotateY = ((x - centerX) / centerX) * 4;
+
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-3px)`;
+        card.style.boxShadow = '0 12px 30px rgba(90, 16, 32, 0.15)';
+      });
+
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = '';
+        card.style.boxShadow = '';
+      });
+    });
+  }
+
+
+  // ================================================
   // INIT ALL
   // ================================================
   async function init() {
@@ -462,6 +525,8 @@
     initProductExperience();
     initMagneticButtons();
     initVideoSound();
+    initGlowCards();
+    initTiltCards();
   }
 
   // Run on DOM ready
@@ -472,3 +537,4 @@
   }
 
 })();
+
