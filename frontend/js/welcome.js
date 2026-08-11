@@ -346,33 +346,27 @@
   // 7. BUSINESS FLOW SCROLL ACTIVATION
   // ================================================
   function initBusinessFlow() {
-    if (typeof gsap === 'undefined') return;
+    if (typeof gsap === 'undefined' || prefersReducedMotion) return;
 
-    const flowSteps = document.querySelectorAll('.flow-step');
-    const flowLineFill = document.getElementById('flow-line-fill');
+    const flowCards = document.querySelectorAll('.flow-card');
+    if (!flowCards.length) return;
 
-    if (!flowSteps.length) return;
-
-    flowSteps.forEach((step, i) => {
-      ScrollTrigger.create({
-        trigger: step,
-        start: 'top 70%',
-        onEnter: () => {
-          step.classList.add('active');
-          // Update flow line fill
-          if (flowLineFill) {
-            const percent = ((i + 1) / flowSteps.length) * 100;
-            flowLineFill.style.height = percent + '%';
-          }
-        },
-        onLeaveBack: () => {
-          step.classList.remove('active');
-          if (flowLineFill) {
-            const percent = (i / flowSteps.length) * 100;
-            flowLineFill.style.height = percent + '%';
-          }
-        },
-      });
+    flowCards.forEach((card, i) => {
+      gsap.fromTo(card,
+        { opacity: 0, y: 35, scale: 0.96 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.7,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: card,
+            start: 'top 85%',
+            toggleActions: 'play none none none',
+          },
+        }
+      );
     });
   }
 
@@ -537,4 +531,6 @@
   }
 
 })();
+
+
 

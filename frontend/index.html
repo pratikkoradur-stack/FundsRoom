@@ -304,14 +304,16 @@
   </section>
 
   <!-- ==========================================
-       MODULES SECTION
+       MODULES SECTION (STICKY STACKING OVERLAP)
        ========================================== -->
   <section class="section modules-section" id="modules-section">
-    <div class="section-label">CORE PLATFORM</div>
-    <h2 class="section-heading">Built for every department.</h2>
+    <div class="modules-sticky-header">
+      <div class="section-label">CORE PLATFORM</div>
+      <h2 class="section-heading">Built for every department.</h2>
+    </div>
 
     <div class="modules-grid">
-      <a href="login.html" class="module-card glow-card tilt-card">
+      <a href="login.html" class="module-card glow-card tilt-card" style="--card-index: 1;">
         <div class="module-number">01</div>
         <div class="module-info">
           <div class="module-title">CUSTOMERS</div>
@@ -322,7 +324,7 @@
         </div>
       </a>
 
-      <a href="login.html" class="module-card glow-card tilt-card">
+      <a href="login.html" class="module-card glow-card tilt-card" style="--card-index: 2;">
         <div class="module-number">02</div>
         <div class="module-info">
           <div class="module-title">PRODUCTS</div>
@@ -333,7 +335,7 @@
         </div>
       </a>
 
-      <a href="login.html" class="module-card glow-card tilt-card">
+      <a href="login.html" class="module-card glow-card tilt-card" style="--card-index: 3;">
         <div class="module-number">03</div>
         <div class="module-info">
           <div class="module-title">SALES</div>
@@ -344,7 +346,7 @@
         </div>
       </a>
 
-      <a href="login.html" class="module-card glow-card tilt-card">
+      <a href="login.html" class="module-card glow-card tilt-card" style="--card-index: 4;">
         <div class="module-number">04</div>
         <div class="module-info">
           <div class="module-title">INVOICES</div>
@@ -355,7 +357,7 @@
         </div>
       </a>
 
-      <a href="login.html" class="module-card glow-card tilt-card">
+      <a href="login.html" class="module-card glow-card tilt-card" style="--card-index: 5;">
         <div class="module-number">05</div>
         <div class="module-info">
           <div class="module-title">CRM FOLLOW-UPS</div>
@@ -369,58 +371,84 @@
   </section>
 
   <!-- ==========================================
-       BUSINESS FLOW SECTION
+       BUSINESS FLOW SECTION (HOW IT WORKS)
        ========================================== -->
   <section class="section flow-section section-center" id="business-flow">
     <div class="section-label">HOW IT WORKS</div>
     <h2 class="section-heading">Your complete <span class="brand">business workflow.</span></h2>
     <p class="section-description">
-      From first contact to final payment — every step connected.
+      From first contact to final payment — every operational step connected seamlessly.
     </p>
 
-    <div class="flow-container">
-      <div class="flow-line"><div class="flow-line-fill" id="flow-line-fill"></div></div>
-
-      <div class="flow-step" data-flow="1">
-        <div class="flow-dot">
-          <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 11a4 4 0 100-8 4 4 0 000 8z"/></svg>
+    <div class="flow-pipeline-grid">
+      <div class="flow-card glow-card tilt-card" data-flow="1">
+        <div class="flow-card-header">
+          <span class="flow-card-num">01</span>
+          <div class="flow-card-icon">
+            <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 11a4 4 0 100-8 4 4 0 000 8z"/></svg>
+          </div>
         </div>
-        <div class="flow-label">CUSTOMER</div>
+        <h3 class="flow-card-title">CUSTOMER CRM</h3>
+        <p class="flow-card-desc">Lead capture, account history & relationship pipeline tracking</p>
       </div>
 
-      <div class="flow-step" data-flow="2">
-        <div class="flow-dot">
-          <svg viewBox="0 0 24 24"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+      <div class="flow-card glow-card tilt-card" data-flow="2">
+        <div class="flow-card-header">
+          <span class="flow-card-num">02</span>
+          <div class="flow-card-icon">
+            <svg viewBox="0 0 24 24"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+          </div>
         </div>
-        <div class="flow-label">PRODUCT</div>
+        <h3 class="flow-card-title">PRODUCT CATALOG</h3>
+        <p class="flow-card-desc">SKUs, wholesale pricing tiers & warehouse spot mapping</p>
       </div>
 
-      <div class="flow-step" data-flow="3">
-        <div class="flow-dot">
-          <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+      <div class="flow-card glow-card tilt-card" data-flow="3">
+        <div class="flow-card-header">
+          <span class="flow-card-num">03</span>
+          <div class="flow-card-icon">
+            <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+          </div>
         </div>
-        <div class="flow-label">INVENTORY</div>
+        <h3 class="flow-card-title">INVENTORY HEALTH</h3>
+        <p class="flow-card-desc">Real-time stock levels & automated minimum stock alert threshold</p>
       </div>
 
-      <div class="flow-step" data-flow="4">
-        <div class="flow-dot">
-          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>
+      <div class="flow-card glow-card tilt-card" data-flow="4">
+        <div class="flow-card-header">
+          <span class="flow-card-num">04</span>
+          <div class="flow-card-icon">
+            <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>
+          </div>
         </div>
-        <div class="flow-label">SALES CHALLAN</div>
+        <h3 class="flow-card-title">SALES CHALLAN</h3>
+        <p class="flow-card-desc">Order generation, stock reservation & dispatch delivery notes</p>
       </div>
 
-      <div class="flow-step" data-flow="5">
-        <div class="flow-dot">
-          <svg viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+      <div class="flow-card glow-card tilt-card" data-flow="5">
+        <div class="flow-card-header">
+          <span class="flow-card-num">05</span>
+          <div class="flow-card-icon">
+            <svg viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 01-2-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          </div>
         </div>
-        <div class="flow-label">INVOICE</div>
+        <h3 class="flow-card-title">GST INVOICE</h3>
+        <p class="flow-card-desc">Automated tax invoices & official print-ready document generation</p>
       </div>
 
-      <div class="flow-step" data-flow="6">
-        <div class="flow-dot">
-          <svg viewBox="0 0 24 24"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+      <div class="flow-card glow-card tilt-card" data-flow="6">
+        <div class="flow-card-header">
+          <span class="flow-card-num">06</span>
+          <div class="flow-card-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+          </div>
         </div>
-        <div class="flow-label">PAYMENT</div>
+        <h3 class="flow-card-title">PAYMENT RECONCILIATION</h3>
+        <p class="flow-card-desc">Accounts tracking, ledger entry & payment status confirmation</p>
+      </div>
+    </div>
+  </section>
+>PAYMENT</div>
       </div>
     </div>
   </section>

@@ -3,9 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Customer CRM | Fundsroom Mini ERP</title>
+  <title>Customer CRM | FUNDSROOM ERP</title>
   <link rel="stylesheet" href="css/style.css">
-  <!-- GSAP CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 </head>
 <body>
@@ -16,7 +15,7 @@
     <div class="main-wrapper">
       <header class="top-header">
         <div class="page-title-group">
-          <h1>Customer CRM Module</h1>
+          <h1>Customers (CRM)</h1>
           <p>Manage customer leads, wholesale clients, distributors & follow-up notes</p>
         </div>
         <div class="header-actions">
@@ -31,7 +30,7 @@
         <div class="filter-bar">
           <div class="search-box">
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-            <input type="text" id="customer-search" class="form-control" placeholder="Search by name, business, mobile...">
+            <input type="text" id="customer-search" class="form-control" placeholder="Search customer name, business, mobile...">
           </div>
 
           <div style="display: flex; gap: 0.75rem;">
@@ -101,75 +100,38 @@
 
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
           <div class="form-group">
-            <label>Customer Type *</label>
-            <select id="cust-type" class="form-control" required>
+            <label>Customer Type</label>
+            <select id="cust-type" class="form-control">
               <option value="Wholesale">Wholesale</option>
-              <option value="Retail">Retail</option>
               <option value="Distributor">Distributor</option>
+              <option value="Retailer">Retailer</option>
             </select>
           </div>
           <div class="form-group">
-            <label>Status</label>
+            <label>Initial Status</label>
             <select id="cust-status" class="form-control">
-              <option value="Lead">Lead</option>
               <option value="Active">Active</option>
+              <option value="Lead">Lead</option>
               <option value="Inactive">Inactive</option>
             </select>
           </div>
         </div>
 
         <div class="form-group">
-          <label>Follow-Up Date</label>
-          <input type="date" id="cust-followup" class="form-control">
+          <label>Follow-up Notes / Instructions</label>
+          <textarea id="cust-notes" class="form-control" rows="3" placeholder="Enter client preferences or order notes..."></textarea>
         </div>
 
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" onclick="document.getElementById('customer-modal').classList.remove('active')">Cancel</button>
+        <div style="display: flex; justify-content: flex-end; gap: 0.75rem; margin-top: 1.5rem;">
+          <button type="button" id="cancel-modal-btn" class="btn btn-secondary">Cancel</button>
           <button type="submit" class="btn btn-primary">Save Customer</button>
         </div>
       </form>
     </div>
   </div>
 
-  <!-- Customer Detail & Follow-up Notes Modal -->
-  <div id="customer-detail-modal" class="modal-overlay">
-    <div class="modal-card">
-      <div class="modal-header">
-        <h3 id="detail-cust-name">Customer Details</h3>
-        <button id="close-detail-modal-btn" class="close-btn">&times;</button>
-      </div>
-
-      <div style="margin-bottom: 1.25rem;">
-        <p id="detail-cust-contact" style="color: var(--text-secondary); font-weight: 500;"></p>
-        <span id="detail-cust-type" class="badge badge-draft" style="margin-top: 0.4rem;"></span>
-      </div>
-
-      <div class="form-group">
-        <label>Follow-Up Notes Log</label>
-        <div id="detail-cust-notes" style="background: var(--bg-main); border: 1px solid var(--border-color); padding: 1rem; border-radius: var(--radius-md); font-family: monospace; font-size: 0.85rem; color: var(--text-primary); max-height: 180px; overflow-y: auto; white-space: pre-wrap;"></div>
-      </div>
-
-      <form id="add-note-form" style="border-top: 1px solid var(--border-color); padding-top: 1rem; margin-top: 1rem;">
-        <div class="form-group">
-          <label>Add New Follow-Up Note</label>
-          <textarea id="new-note-text" class="form-control" rows="2" placeholder="e.g. Discussed pricing for 500 units order. Client requested discount." required></textarea>
-        </div>
-
-        <div class="form-group">
-          <label>Next Follow-Up Date</label>
-          <input type="date" id="note-followup" class="form-control">
-        </div>
-
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" onclick="document.getElementById('customer-detail-modal').classList.remove('active')">Close</button>
-          <button type="submit" class="btn btn-primary">Append Note</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
   <script src="js/api.js"></script>
-  <script src="js/layout.js"></script>
   <script src="js/customers.js"></script>
+  <script src="js/layout.js"></script>
 </body>
 </html>
