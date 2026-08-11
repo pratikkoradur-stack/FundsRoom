@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Overview | Fundsroom Operations Portal</title>
+  <link rel="stylesheet" href="css/style.css">
+  <!-- GSAP CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+</head>
+<body>
+
+  <div id="app-container" class="app-container">
+    <!-- Sidebar rendered dynamically by layout.js -->
+
+    <div class="main-wrapper">
+      <header class="top-header">
+        <div class="page-title-group">
+          <h1>Operations Executive Dashboard</h1>
+          <p>Real-time analytics for Wholesale CRM, Inventory Health & Sales Challans</p>
+        </div>
+        <div class="header-actions">
+          <div style="display: flex; align-items: center; gap: 0.5rem; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); padding: 0.4rem 0.85rem; border-radius: var(--radius-full); font-size: 0.8rem; color: var(--success); font-weight: 600;">
+            <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--success); display: inline-block;"></span>
+            API Live Connected
+          </div>
+        </div>
+      </header>
+
+      <main class="content-area">
+        <!-- Key Metrics Cards Grid -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon" style="background: rgba(56, 189, 248, 0.15); color: var(--accent-primary);">💰</div>
+            <div class="stat-info">
+              <h4>Confirmed Sales Revenue</h4>
+              <div id="dash-total-revenue" class="value">₹0.00</div>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon" style="background: rgba(129, 140, 248, 0.15); color: #818cf8;">👥</div>
+            <div class="stat-info">
+              <h4>Total Customer Accounts</h4>
+              <div id="dash-total-cust" class="value">0</div>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon" style="background: rgba(16, 185, 129, 0.15); color: var(--success);">📦</div>
+            <div class="stat-info">
+              <h4>Total Catalog SKUs</h4>
+              <div id="dash-total-prods" class="value">0</div>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon" style="background: rgba(239, 68, 68, 0.15); color: var(--danger);">⚠️</div>
+            <div class="stat-info">
+              <h4>Low Stock Alerts</h4>
+              <div id="dash-low-stock-count" class="value" style="color: var(--danger);">0 Items</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Action Shortcuts -->
+        <div style="display: flex; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap;">
+          <a href="challans.html" class="btn btn-primary">
+            🚚 + Create Sales Challan
+          </a>
+          <a href="customers.html" class="btn btn-secondary">
+            👤 + Add Customer
+          </a>
+          <a href="products.html" class="btn btn-secondary">
+            📦 + Add Inventory Item
+          </a>
+        </div>
+
+        <!-- Two Column Layout: Recent Challans & Low Stock Warnings -->
+        <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 1.5rem;">
+          <!-- Recent Sales Challans -->
+          <div class="table-card">
+            <div style="padding: 1.25rem; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;">
+              <h3 style="font-size: 1.05rem; font-weight: 700; color: var(--text-primary);">Recent Sales Challans</h3>
+              <a href="challans.html" style="color: var(--accent-primary); font-size: 0.85rem; font-weight: 600; text-decoration: none;">View All &rarr;</a>
+            </div>
+            <div class="table-responsive">
+              <table class="custom-table">
+                <thead>
+                  <tr>
+                    <th>Challan #</th>
+                    <th>Customer</th>
+                    <th>Qty</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody id="dash-recent-challans-tbody">
+                  <tr><td colspan="4" style="text-align: center; color: var(--text-muted);">Loading recent challans...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Low Stock Warning Widget -->
+          <div class="table-card">
+            <div style="padding: 1.25rem; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;">
+              <h3 style="font-size: 1.05rem; font-weight: 700; color: var(--danger);">⚠️ Low Stock Items</h3>
+              <a href="products.html" style="color: var(--accent-primary); font-size: 0.85rem; font-weight: 600; text-decoration: none;">Manage Stock &rarr;</a>
+            </div>
+            <div class="table-responsive">
+              <table class="custom-table">
+                <thead>
+                  <tr>
+                    <th>Product</th>
+                    <th>Stock</th>
+                    <th>Min Alert</th>
+                  </tr>
+                </thead>
+                <tbody id="dash-low-stock-tbody">
+                  <tr><td colspan="3" style="text-align: center; color: var(--text-muted);">Loading stock alerts...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/layout.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

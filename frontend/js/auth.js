@@ -6,9 +6,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (!loginForm) return;
 
-  // If user is already logged in, redirect to customers.html
+  // If user is already logged in, redirect to dashboard.html
   if (localStorage.getItem('token')) {
-    window.location.href = 'customers.html';
+    window.location.href = 'dashboard.html';
     return;
   }
 
@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
       localStorage.setItem('user', JSON.stringify(data.user));
 
       // Redirect to main portal page
-      window.location.href = 'customers.html';
+      window.location.href = 'dashboard.html';
     } catch (err) {
       showError(err.message || 'Login failed. Please check backend connection.');
     } finally {
