@@ -1,9 +1,11 @@
 // Shared Layout Injector & Navigation Handler
 document.addEventListener('DOMContentLoaded', () => {
-  const isLoginPage = window.location.pathname.endsWith('index.html') || window.location.pathname === '/' || window.location.pathname === '';
+  const currentPath = window.location.pathname;
+  const isLoginPage = currentPath.endsWith('login.html');
+  const isWelcomePage = currentPath.endsWith('index.html') || currentPath === '/' || currentPath === '';
 
+  // Skip layout injection for login page and welcome page
   if (isLoginPage) {
-    // Run GSAP login entrance animation if GSAP is available
     if (typeof gsap !== 'undefined') {
       gsap.from('.login-card', {
         duration: 0.8,
@@ -15,12 +17,14 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
-  // Auth Protection Check
+  if (isWelcomePage) return;
+
+  // Auth Protection Check for admin pages
   const token = localStorage.getItem('token');
   const userJson = localStorage.getItem('user');
 
   if (!token) {
-    window.location.href = 'index.html';
+    window.location.href = 'login.html';
     return;
   }
 
@@ -124,13 +128,11 @@ function renderLayout(user) {
     </aside>
   `;
 
-  // Prepend sidebar into wrapper
   appContainer.insertAdjacentHTML('afterbegin', sidebarHTML);
 
-  // Add logout handler
   document.getElementById('logout-btn')?.addEventListener('click', () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
-    window.location.href = 'index.html';
+    window.location.href = 'login.html';
   });
 }

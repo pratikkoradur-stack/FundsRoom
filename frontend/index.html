@@ -3,53 +3,545 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login | Fundsroom Mini ERP + CRM Portal</title>
-  <link rel="stylesheet" href="css/style.css">
-  <!-- GSAP CDN -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <title>Fundsroom ERP — Wholesale Operations Platform</title>
+  <meta name="description" content="Fundsroom ERP brings your sales, inventory, customers and finances together in one powerful platform for wholesale and distribution businesses.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/welcome.css">
 </head>
-<body class="login-body">
+<body class="welcome-body">
 
-  <div class="login-card">
-    <div class="login-header">
-      <div class="login-logo">
-        <div class="sidebar-brand-icon">E</div>
-        <span>Fundsroom ERP</span>
-      </div>
-      <p class="login-subtitle">Wholesale & Operations Portal</p>
+  <!-- ==========================================
+       LOADING SCREEN
+       ========================================== -->
+  <div class="loading-screen" id="loading-screen">
+    <div class="loading-brand">
+      <h2>FUNDSROOM ERP</h2>
+      <p>Wholesale Operations</p>
     </div>
-
-    <div id="login-error" style="display: none; background: rgba(239, 68, 68, 0.15); border: 1px solid var(--danger); color: var(--danger); padding: 0.75rem; border-radius: var(--radius-md); font-size: 0.85rem; margin-bottom: 1.25rem;"></div>
-
-    <form id="login-form">
-      <div class="form-group">
-        <label for="email">Email Address</label>
-        <input type="email" id="email" class="form-control" placeholder="admin@company.com" required autocomplete="email">
+    <div class="loading-progress">
+      <div class="loading-bar">
+        <div class="loading-bar-fill" id="loading-bar-fill"></div>
       </div>
-
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" class="form-control" placeholder="••••••••" required autocomplete="current-password" value="admin123">
-      </div>
-
-      <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem; padding: 0.85rem;">
-        Sign In to Portal
-      </button>
-    </form>
-
-    <div style="margin-top: 1.5rem; border-top: 1px solid var(--border-color); padding-top: 1rem; text-align: center;">
-      <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.75rem; font-weight: 600; text-transform: uppercase;">⚡ Quick One-Click Test Login</p>
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
-        <button type="button" class="btn btn-secondary btn-sm test-login-btn" data-email="admin@company.com">👑 Admin</button>
-        <button type="button" class="btn btn-secondary btn-sm test-login-btn" data-email="sales@company.com">💼 Sales</button>
-        <button type="button" class="btn btn-secondary btn-sm test-login-btn" data-email="warehouse@company.com">📦 Warehouse</button>
-        <button type="button" class="btn btn-secondary btn-sm test-login-btn" data-email="accounts@company.com">📊 Accounts</button>
-      </div>
+      <div class="loading-percent" id="loading-percent">0%</div>
     </div>
   </div>
 
-  <script src="js/api.js"></script>
-  <script src="js/auth.js"></script>
-  <script src="js/layout.js"></script>
+  <!-- ==========================================
+       SCROLL PROGRESS
+       ========================================== -->
+  <div class="scroll-progress" id="scroll-progress"></div>
+
+  <!-- ==========================================
+       NAVIGATION
+       ========================================== -->
+  <nav class="welcome-nav" id="welcome-nav">
+    <a href="#" class="nav-brand">
+      <div class="nav-brand-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+      </div>
+      <div class="nav-brand-text">
+        <strong>FUNDSROOM ERP</strong>
+        <small>Wholesale Operations</small>
+      </div>
+    </a>
+
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#modules">Features</a></li>
+      <li><a href="#modules-section">Modules</a></li>
+      <li><a href="#roles">Benefits</a></li>
+      <li><a href="#footer">About Us</a></li>
+    </ul>
+
+    <a href="login.html" class="nav-cta magnetic-btn">
+      Get Started
+      <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+
+    <button class="nav-mobile-toggle" id="nav-mobile-toggle" aria-label="Toggle menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </nav>
+
+  <!-- ==========================================
+       HERO SECTION
+       ========================================== -->
+  <section class="hero" id="hero">
+    <div class="hero-bg">
+      <!-- Subtle world map SVG decoration -->
+      <div class="hero-map">
+        <svg viewBox="0 0 800 450" xmlns="http://www.w3.org/2000/svg">
+          <!-- Simplified world map dots and connection lines -->
+          <g fill="none" stroke="#5A1020" stroke-width="0.5" opacity="0.4">
+            <!-- Connection lines -->
+            <line x1="180" y1="160" x2="350" y2="140"/>
+            <line x1="350" y1="140" x2="420" y2="190"/>
+            <line x1="420" y1="190" x2="520" y2="170"/>
+            <line x1="520" y1="170" x2="600" y2="200"/>
+            <line x1="600" y1="200" x2="680" y2="180"/>
+            <line x1="350" y1="140" x2="380" y2="220"/>
+            <line x1="420" y1="190" x2="450" y2="280"/>
+            <line x1="520" y1="170" x2="560" y2="250"/>
+            <line x1="180" y1="160" x2="200" y2="250"/>
+            <line x1="680" y1="180" x2="720" y2="260"/>
+          </g>
+          <!-- Map dots representing continents -->
+          <g fill="#5A1020" opacity="0.3">
+            <!-- North America -->
+            <circle cx="140" cy="120" r="2"/><circle cx="160" cy="130" r="1.5"/>
+            <circle cx="180" cy="140" r="2"/><circle cx="150" cy="150" r="1.5"/>
+            <circle cx="170" cy="160" r="2.5"/><circle cx="190" cy="155" r="1.5"/>
+            <circle cx="200" cy="165" r="2"/><circle cx="160" cy="170" r="1.5"/>
+            <circle cx="140" cy="160" r="1.5"/><circle cx="180" cy="180" r="2"/>
+            <circle cx="155" cy="185" r="1.5"/><circle cx="130" cy="140" r="1.5"/>
+            <!-- Central America -->
+            <circle cx="190" cy="210" r="1.5"/><circle cx="200" cy="220" r="1.5"/>
+            <!-- South America -->
+            <circle cx="220" cy="260" r="2"/><circle cx="230" cy="280" r="2"/>
+            <circle cx="225" cy="300" r="1.5"/><circle cx="215" cy="320" r="1.5"/>
+            <circle cx="210" cy="340" r="2"/><circle cx="240" cy="290" r="1.5"/>
+            <circle cx="235" cy="270" r="1.5"/><circle cx="200" cy="250" r="1.5"/>
+            <!-- Europe -->
+            <circle cx="350" cy="120" r="2"/><circle cx="360" cy="130" r="1.5"/>
+            <circle cx="370" cy="125" r="2"/><circle cx="380" cy="135" r="1.5"/>
+            <circle cx="365" cy="140" r="2.5"/><circle cx="355" cy="150" r="1.5"/>
+            <circle cx="340" cy="135" r="1.5"/><circle cx="390" cy="130" r="1.5"/>
+            <!-- Africa -->
+            <circle cx="370" cy="200" r="2"/><circle cx="380" cy="220" r="2"/>
+            <circle cx="375" cy="240" r="1.5"/><circle cx="385" cy="260" r="1.5"/>
+            <circle cx="390" cy="280" r="2"/><circle cx="370" cy="270" r="1.5"/>
+            <circle cx="395" cy="300" r="1.5"/><circle cx="360" cy="190" r="1.5"/>
+            <!-- Asia -->
+            <circle cx="420" cy="140" r="2"/><circle cx="450" cy="150" r="1.5"/>
+            <circle cx="480" cy="145" r="2"/><circle cx="510" cy="155" r="2"/>
+            <circle cx="540" cy="160" r="1.5"/><circle cx="560" cy="150" r="2"/>
+            <circle cx="530" cy="170" r="2.5"/><circle cx="500" cy="170" r="1.5"/>
+            <circle cx="470" cy="165" r="1.5"/><circle cx="550" cy="180" r="1.5"/>
+            <circle cx="580" cy="170" r="2"/><circle cx="600" cy="180" r="2"/>
+            <circle cx="620" cy="190" r="1.5"/><circle cx="590" cy="200" r="1.5"/>
+            <!-- India -->
+            <circle cx="520" cy="200" r="2"/><circle cx="530" cy="215" r="2"/>
+            <circle cx="525" cy="230" r="1.5"/><circle cx="515" cy="245" r="1.5"/>
+            <!-- Southeast Asia -->
+            <circle cx="600" cy="220" r="1.5"/><circle cx="620" cy="235" r="1.5"/>
+            <circle cx="640" cy="250" r="1.5"/>
+            <!-- Australia -->
+            <circle cx="660" cy="310" r="2"/><circle cx="680" cy="300" r="2"/>
+            <circle cx="700" cy="310" r="1.5"/><circle cx="690" cy="325" r="1.5"/>
+            <circle cx="670" cy="320" r="1.5"/><circle cx="710" cy="300" r="1.5"/>
+            <!-- Japan -->
+            <circle cx="660" cy="160" r="1.5"/><circle cx="670" cy="170" r="1.5"/>
+            <circle cx="665" cy="155" r="1.5"/>
+          </g>
+          <!-- Highlight nodes -->
+          <g fill="none" stroke="#5A1020" stroke-width="1" opacity="0.2">
+            <circle cx="180" cy="160" r="6"/><circle cx="350" cy="140" r="6"/>
+            <circle cx="420" cy="190" r="6"/><circle cx="520" cy="170" r="6"/>
+            <circle cx="600" cy="200" r="6"/><circle cx="680" cy="180" r="6"/>
+          </g>
+          <g fill="#5A1020" opacity="0.45">
+            <circle cx="180" cy="160" r="3"/><circle cx="350" cy="140" r="3"/>
+            <circle cx="420" cy="190" r="3"/><circle cx="520" cy="170" r="3"/>
+            <circle cx="600" cy="200" r="3"/><circle cx="680" cy="180" r="3"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Hero Video (replace src with your video file) -->
+    <div class="hero-video-container" id="hero-video-container">
+      <video id="hero-video" autoplay loop muted playsinline>
+        <source src="assets/hero-video.mp4" type="video/mp4">
+      </video>
+      <div class="hero-video-overlay"></div>
+      <button class="video-sound-toggle" id="video-sound-toggle" aria-label="Toggle sound">
+        <svg id="sound-off-icon" viewBox="0 0 24 24"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+        <svg id="sound-on-icon" viewBox="0 0 24 24" style="display:none;"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg>
+      </button>
+    </div>
+
+    <!-- Hero Content -->
+    <div class="hero-content">
+      <div class="hero-eyebrow" id="hero-eyebrow">CONTROL. &nbsp;MANAGE. &nbsp;GROW.</div>
+
+      <h1 class="hero-heading" id="hero-heading">
+        <span class="line line-dark">SMARTER OPERATIONS</span>
+        <span class="line line-brand">STRONGER BUSINESS</span>
+      </h1>
+
+      <p class="hero-description" id="hero-description">
+        Fundsroom ERP brings your sales, inventory,
+        customers and finances together in one
+        powerful platform.
+      </p>
+
+      <div class="hero-buttons" id="hero-buttons">
+        <a href="#introduction" class="btn-hero-primary magnetic-btn">
+          <span class="play-icon">
+            <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+          </span>
+          Watch Overview
+        </a>
+        <a href="login.html" class="btn-hero-secondary magnetic-btn">
+          View Demo
+          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div class="scroll-indicator" id="scroll-indicator">
+      <div class="scroll-indicator-mouse"></div>
+      <span>Scroll to Explore</span>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       STATS SECTION
+       ========================================== -->
+  <section class="stats-section section" id="stats">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-card-icon">
+          <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/></svg>
+        </div>
+        <div class="stat-value" data-target="1000" data-suffix="+">0</div>
+        <div class="stat-label">Sales Managed</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-card-icon">
+          <svg viewBox="0 0 24 24"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+        </div>
+        <div class="stat-value" data-target="500" data-suffix="+">0</div>
+        <div class="stat-label">Products Tracked</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-card-icon">
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zM23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+        </div>
+        <div class="stat-value" data-target="250" data-suffix="+">0</div>
+        <div class="stat-label">Happy Customers</div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-card-icon">
+          <svg viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+        </div>
+        <div class="stat-value" data-target="99.9" data-suffix="%" data-decimal="true">0</div>
+        <div class="stat-label">System Uptime</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       PRODUCT INTRODUCTION
+       ========================================== -->
+  <section class="section introduction" id="introduction">
+    <div class="section-label">THE OPERATIONS LAYER</div>
+    <h2 class="section-heading">
+      Everything your wholesale<br>
+      business needs.<br>
+      <span class="brand">In one place.</span>
+    </h2>
+    <p class="section-description">
+      Fundsroom ERP connects customers, products, inventory,
+      sales and operational workflows into one unified system.
+    </p>
+  </section>
+
+  <!-- ==========================================
+       MODULES SECTION
+       ========================================== -->
+  <section class="section modules-section" id="modules-section">
+    <div class="section-label">CORE PLATFORM</div>
+    <h2 class="section-heading">Built for every department.</h2>
+
+    <div class="modules-grid">
+      <a href="login.html" class="module-card">
+        <div class="module-number">01</div>
+        <div class="module-info">
+          <div class="module-title">CUSTOMERS</div>
+          <div class="module-subtitle">CRM & Relationship Management</div>
+        </div>
+        <div class="module-arrow">
+          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </a>
+
+      <a href="login.html" class="module-card">
+        <div class="module-number">02</div>
+        <div class="module-info">
+          <div class="module-title">PRODUCTS</div>
+          <div class="module-subtitle">Inventory & Stock Management</div>
+        </div>
+        <div class="module-arrow">
+          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </a>
+
+      <a href="login.html" class="module-card">
+        <div class="module-number">03</div>
+        <div class="module-info">
+          <div class="module-title">SALES</div>
+          <div class="module-subtitle">Challans & Order Processing</div>
+        </div>
+        <div class="module-arrow">
+          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </a>
+
+      <a href="login.html" class="module-card">
+        <div class="module-number">04</div>
+        <div class="module-info">
+          <div class="module-title">INVOICES</div>
+          <div class="module-subtitle">Tax-Ready GST Invoice Generation</div>
+        </div>
+        <div class="module-arrow">
+          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </a>
+
+      <a href="login.html" class="module-card">
+        <div class="module-number">05</div>
+        <div class="module-info">
+          <div class="module-title">CRM FOLLOW-UPS</div>
+          <div class="module-subtitle">Customer Notes & Activity Tracking</div>
+        </div>
+        <div class="module-arrow">
+          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       BUSINESS FLOW SECTION
+       ========================================== -->
+  <section class="section flow-section section-center" id="business-flow">
+    <div class="section-label">HOW IT WORKS</div>
+    <h2 class="section-heading">Your complete <span class="brand">business workflow.</span></h2>
+    <p class="section-description">
+      From first contact to final payment — every step connected.
+    </p>
+
+    <div class="flow-container">
+      <div class="flow-line"><div class="flow-line-fill" id="flow-line-fill"></div></div>
+
+      <div class="flow-step" data-flow="1">
+        <div class="flow-dot">
+          <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 11a4 4 0 100-8 4 4 0 000 8z"/></svg>
+        </div>
+        <div class="flow-label">CUSTOMER</div>
+      </div>
+
+      <div class="flow-step" data-flow="2">
+        <div class="flow-dot">
+          <svg viewBox="0 0 24 24"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+        </div>
+        <div class="flow-label">PRODUCT</div>
+      </div>
+
+      <div class="flow-step" data-flow="3">
+        <div class="flow-dot">
+          <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
+        </div>
+        <div class="flow-label">INVENTORY</div>
+      </div>
+
+      <div class="flow-step" data-flow="4">
+        <div class="flow-dot">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>
+        </div>
+        <div class="flow-label">SALES CHALLAN</div>
+      </div>
+
+      <div class="flow-step" data-flow="5">
+        <div class="flow-dot">
+          <svg viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+        </div>
+        <div class="flow-label">INVOICE</div>
+      </div>
+
+      <div class="flow-step" data-flow="6">
+        <div class="flow-dot">
+          <svg viewBox="0 0 24 24"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+        </div>
+        <div class="flow-label">PAYMENT</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       ROLES SECTION
+       ========================================== -->
+  <section class="section roles-section" id="roles">
+    <div class="section-center">
+      <div class="section-label">TEAM ACCESS</div>
+      <h2 class="section-heading">Built for every <span class="brand">role.</span></h2>
+      <p class="section-description">
+        Role-based access ensures every team member sees exactly what they need.
+      </p>
+    </div>
+
+    <div class="roles-grid">
+      <div class="role-card">
+        <div class="role-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+        </div>
+        <div class="role-title">ADMIN</div>
+        <p class="role-description">System and operations overview with full control</p>
+      </div>
+
+      <div class="role-card">
+        <div class="role-icon">
+          <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+        <div class="role-title">SALES</div>
+        <p class="role-description">Customers, sales challans and CRM pipeline</p>
+      </div>
+
+      <div class="role-card">
+        <div class="role-icon">
+          <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><path d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12"/></svg>
+        </div>
+        <div class="role-title">WAREHOUSE</div>
+        <p class="role-description">Products, inventory and stock movement tracking</p>
+      </div>
+
+      <div class="role-card">
+        <div class="role-icon">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>
+        </div>
+        <div class="role-title">ACCOUNTS</div>
+        <p class="role-description">Invoices, payments and financial reporting</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       PRODUCT EXPERIENCE / DASHBOARD PREVIEW
+       ========================================== -->
+  <section class="section experience-section section-center" id="product-experience">
+    <div class="section-label">PRODUCT EXPERIENCE</div>
+    <h2 class="section-heading">See the <span class="brand">platform</span> in action.</h2>
+
+    <div class="experience-preview" id="experience-preview">
+      <div class="dashboard-mockup">
+        <div class="mockup-sidebar">
+          <div class="mockup-sidebar-brand">FUNDSROOM ERP</div>
+          <div class="mockup-sidebar-item active">📊 Dashboard</div>
+          <div class="mockup-sidebar-item">👥 Customers</div>
+          <div class="mockup-sidebar-item">📦 Products</div>
+          <div class="mockup-sidebar-item">📄 Challans</div>
+          <div class="mockup-sidebar-item">🧾 Invoices</div>
+        </div>
+        <div class="mockup-content">
+          <div class="mockup-header">
+            <h4>Operations Executive Dashboard</h4>
+            <span style="font-size: 0.75rem; color: #3F7A55; font-weight: 600;">● API Connected</span>
+          </div>
+          <div class="mockup-stats">
+            <div class="mockup-stat">
+              <div class="mockup-stat-label">Revenue</div>
+              <div class="mockup-stat-value">₹12.4L</div>
+            </div>
+            <div class="mockup-stat">
+              <div class="mockup-stat-label">Customers</div>
+              <div class="mockup-stat-value">248</div>
+            </div>
+            <div class="mockup-stat">
+              <div class="mockup-stat-label">Low Stock</div>
+              <div class="mockup-stat-value" style="color: #9A5A32;">7</div>
+            </div>
+          </div>
+          <table class="mockup-table">
+            <thead>
+              <tr>
+                <th>Challan</th>
+                <th>Customer</th>
+                <th>Amount</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>CH-249921-8353</td>
+                <td>Sharma Traders</td>
+                <td>₹42,500</td>
+                <td><span class="mockup-badge mockup-badge-confirmed">Confirmed</span></td>
+              </tr>
+              <tr>
+                <td>CH-249922-1047</td>
+                <td>Patel Wholesale</td>
+                <td>₹18,750</td>
+                <td><span class="mockup-badge mockup-badge-confirmed">Confirmed</span></td>
+              </tr>
+              <tr>
+                <td>CH-249923-5691</td>
+                <td>Gupta Distributors</td>
+                <td>₹31,200</td>
+                <td><span class="mockup-badge mockup-badge-draft">Draft</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       FINAL CTA
+       ========================================== -->
+  <section class="final-cta" id="final-cta">
+    <h2 class="final-cta-heading">READY TO TAKE CONTROL?</h2>
+    <p class="final-cta-description">
+      Bring your wholesale operations into one
+      simple, connected workspace.
+    </p>
+    <div class="final-cta-buttons">
+      <a href="login.html" class="btn-final-primary magnetic-btn">
+        Explore Fundsroom ERP
+        <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="login.html" class="btn-final-secondary magnetic-btn">
+        Sign In
+      </a>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       FOOTER
+       ========================================== -->
+  <footer class="welcome-footer" id="footer">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <strong>FUNDSROOM ERP</strong>
+        <small>Wholesale Operations</small>
+      </div>
+      <ul class="footer-links">
+        <li><a href="#modules-section">Features</a></li>
+        <li><a href="#modules-section">Modules</a></li>
+        <li><a href="#roles">Benefits</a></li>
+        <li><a href="#footer">About</a></li>
+        <li><a href="login.html">Login</a></li>
+      </ul>
+    </div>
+    <div class="footer-copyright">
+      &copy; 2026 Fundsroom ERP. All rights reserved.
+    </div>
+  </footer>
+
+
+  <!-- ==========================================
+       SCRIPTS
+       ========================================== -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="js/welcome.js"></script>
 </body>
 </html>

@@ -42,17 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
       submitBtn.textContent = 'Authenticating...';
       hideError();
 
-      const response = await fetch('http://localhost:5000/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Invalid credentials');
-      }
+      const data = await apiRequest('/auth/login', 'POST', { email, password });
 
       // Save token and user details to localStorage
       localStorage.setItem('token', data.token);

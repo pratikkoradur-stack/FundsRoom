@@ -1,12 +1,10 @@
 // Centralized API Wrapper & Environment Configuration
 const DEFAULT_LOCAL_API = 'http://localhost:5000/api';
 
-// Check if custom Railway/Production API URL is set in localStorage or environment
 const getApiBaseUrl = () => {
   const customUrl = localStorage.getItem('CUSTOM_API_BASE_URL');
   if (customUrl) return customUrl.replace(/\/$/, '');
 
-  // If running hosted on Railway / same-origin server
   if (window.location.origin.includes('railway.app') || window.location.origin.includes('onrender.com')) {
     return `${window.location.origin}/api`;
   }
@@ -18,7 +16,7 @@ const API_BASE_URL = getApiBaseUrl();
 
 async function apiRequest(endpoint, method = 'GET', data = null) {
   const token = localStorage.getItem('token');
-  
+
   const headers = {
     'Content-Type': 'application/json',
   };
@@ -38,12 +36,15 @@ async function apiRequest(endpoint, method = 'GET', data = null) {
 
   try {
     const response = await fetch(`${API_BASE_URL}${endpoint}`, config);
-    
+
     // Handle unauthorized access (expired or invalid token)
-    if (response.status === 401 && !window.location.pathname.endsWith('index.html') && window.location.pathname !== '/' && window.location.pathname !== '') {
+    const currentPath = window.location.pathname;
+    const isPublicPage = currentPath.endsWith('index.html') || currentPath === '/' || currentPath === '' || currentPath.endsWith('login.html');
+
+    if (response.status === 401 && !isPublicPage) {
       localStorage.removeItem('token');
       localStorage.removeItem('user');
-      window.location.href = 'index.html';
+      window.location.href = 'login.html';
       return;
     }
 
