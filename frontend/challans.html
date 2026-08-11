@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sales Challans | Fundsroom Mini ERP</title>
+  <link rel="stylesheet" href="css/style.css">
+  <!-- GSAP CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+</head>
+<body>
+
+  <div id="app-container" class="app-container">
+    <!-- Sidebar rendered dynamically by layout.js -->
+
+    <div class="main-wrapper">
+      <header class="top-header">
+        <div class="page-title-group">
+          <h1>Sales Challan Management</h1>
+          <p>Create & manage delivery challans, stock deductions, and print official invoices</p>
+        </div>
+        <div class="header-actions">
+          <button id="add-challan-btn" class="btn btn-primary">
+            + Create Sales Challan
+          </button>
+        </div>
+      </header>
+
+      <main class="content-area">
+        <!-- Filter Bar -->
+        <div class="filter-bar">
+          <div style="display: flex; gap: 0.75rem;">
+            <select id="challan-status-filter" class="form-control" style="width: auto;">
+              <option value="">All Statuses</option>
+              <option value="Draft">Draft</option>
+              <option value="Confirmed">Confirmed</option>
+              <option value="Cancelled">Cancelled</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Challans Table -->
+        <div class="table-card">
+          <div class="table-responsive">
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th>Challan #</th>
+                  <th>Customer Name</th>
+                  <th>Total Items Qty</th>
+                  <th>Status</th>
+                  <th>Created Date</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="challans-tbody">
+                <!-- Populated dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Create Challan Modal -->
+  <div id="challan-modal" class="modal-overlay">
+    <div class="modal-card" style="max-width: 700px;">
+      <div class="modal-header">
+        <h3>Create Sales Challan</h3>
+        <button id="close-modal-btn" class="close-btn">&times;</button>
+      </div>
+
+      <form id="challan-form">
+        <div class="form-group">
+          <label>Select Customer *</label>
+          <select id="challan-cust-id" class="form-control" required>
+            <option value="">-- Loading Customers... --</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+            <label style="margin: 0;">Challan Items & Quantities *</label>
+            <button type="button" id="add-item-row-btn" class="btn btn-secondary btn-sm">+ Add Item Row</button>
+          </div>
+
+          <div id="challan-items-container" style="background: var(--bg-main); padding: 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-color);">
+            <!-- Dynamic product rows inserted here -->
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Save Status *</label>
+          <select id="challan-status" class="form-control" required>
+            <option value="Draft">Save as Draft (No stock deduction yet)</option>
+            <option value="Confirmed">Confirm Immediately & Deduct Stock</option>
+          </select>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="document.getElementById('challan-modal').classList.remove('active')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Generate Challan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- View Challan Detail & Actions Modal -->
+  <div id="challan-detail-modal" class="modal-overlay">
+    <div class="modal-card" style="max-width: 700px;">
+      <div class="modal-header">
+        <h3 id="detail-challan-num">Challan Details</h3>
+        <button id="close-detail-modal-btn" class="close-btn">&times;</button>
+      </div>
+
+      <div style="margin-bottom: 1rem;">
+        <p id="detail-challan-meta" style="color: var(--text-secondary); font-size: 0.9rem; font-weight: 500;"></p>
+      </div>
+
+      <div class="table-card" style="margin-bottom: 1rem;">
+        <div class="table-responsive">
+          <table class="custom-table">
+            <thead>
+              <tr>
+                <th>Product Item</th>
+                <th>Unit Price</th>
+                <th>Qty</th>
+                <th>Subtotal</th>
+              </tr>
+            </thead>
+            <tbody id="detail-challan-items-tbody">
+              <!-- Populated dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="detail-challan-total" style="font-weight: 700; font-size: 1rem; text-align: right; color: var(--accent-primary); margin-bottom: 1.5rem;"></div>
+
+      <div class="modal-footer" style="justify-content: space-between;">
+        <div>
+          <button type="button" id="open-print-invoice-btn" class="btn btn-secondary">
+            🖨️ Print Official Invoice / PDF
+          </button>
+          <button type="button" id="confirm-draft-btn" class="btn btn-primary" style="display: none; margin-left: 0.5rem;">
+            ✅ Confirm & Reduce Stock
+          </button>
+          <button type="button" id="cancel-challan-btn" class="btn btn-danger" style="display: none; margin-left: 0.5rem;">
+            ❌ Cancel Challan
+          </button>
+        </div>
+        <button type="button" class="btn btn-secondary" onclick="document.getElementById('challan-detail-modal').classList.remove('active')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Print-Ready Invoice Modal -->
+  <div id="invoice-modal" class="modal-overlay">
+    <div class="modal-card" style="max-width: 850px; background: transparent; border: none; box-shadow: none; padding: 0;">
+      <div style="background: var(--bg-card); padding: 1rem 1.5rem; border-top-left-radius: var(--radius-md); border-top-right-radius: var(--radius-md); display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color);">
+        <h3 style="color: var(--text-primary); margin: 0;">🖨️ Printable Official Invoice</h3>
+        <button id="close-invoice-modal-btn" class="close-btn">&times;</button>
+      </div>
+
+      <!-- Printable Area -->
+      <div id="invoice-print-area" class="invoice-container">
+        <div class="invoice-header">
+          <div class="company-details">
+            <h2>Fundsroom ERP Operations</h2>
+            <p>104 Commerce Tower, Industrial Hub Zone, Mumbai, MH, 400001</p>
+            <p>GSTIN: 27AABCF9812H1Z5 | Support: ops@fundsroom.com | +91 98765 43210</p>
+          </div>
+          <div class="invoice-badge-box">
+            <h3 id="inv-num">INVOICE #CH-000000</h3>
+            <p id="inv-date">Date: 11-Aug-2026</p>
+            <p id="inv-status-badge" style="font-weight: 700; margin-top: 0.2rem; text-transform: uppercase; color: #10b981;"></p>
+          </div>
+        </div>
+
+        <div class="invoice-billing-grid">
+          <div class="billing-col">
+            <h4>Billed To (Customer):</h4>
+            <p><strong id="inv-cust-name">Customer Name</strong></p>
+            <p id="inv-cust-type">Type: Wholesale</p>
+            <p id="inv-cust-phone">Mobile: +91 9876543210</p>
+            <p id="inv-cust-email">Email: client@domain.com</p>
+          </div>
+          <div class="billing-col">
+            <h4>Dispatch & Order Ref:</h4>
+            <p><strong>Prepared By:</strong> <span id="inv-creator">Staff</span></p>
+            <p><strong>Payment Terms:</strong> Net 30 Days</p>
+            <p><strong>Place of Supply:</strong> Maharashtra (27)</p>
+          </div>
+        </div>
+
+        <table class="invoice-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Item Description & SKU</th>
+              <th>Unit Price (₹)</th>
+              <th>Qty</th>
+              <th>Subtotal (₹)</th>
+            </tr>
+          </thead>
+          <tbody id="inv-items-tbody">
+            <!-- Dynamic invoice rows -->
+          </tbody>
+        </table>
+
+        <div class="invoice-summary">
+          <table class="summary-table">
+            <tr>
+              <td>Subtotal (Excl. Tax):</td>
+              <td id="inv-subtotal">₹0.00</td>
+            </tr>
+            <tr>
+              <td>CGST @ 9%:</td>
+              <td id="inv-cgst">₹0.00</td>
+            </tr>
+            <tr>
+              <td>SGST @ 9%:</td>
+              <td id="inv-sgst">₹0.00</td>
+            </tr>
+            <tr class="summary-total">
+              <td>Grand Total (Incl. Tax):</td>
+              <td id="inv-grandtotal">₹0.00</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="invoice-footer">
+          <div>
+            <p style="font-weight: 600;">Authorized Signatory</p>
+            <p style="margin-top: 1.5rem; border-top: 1px dashed #cbd5e1; width: 180px; padding-top: 0.2rem;">Fundsroom ERP Operations</p>
+          </div>
+          <p>This is a computer-generated tax invoice and delivery challan.</p>
+        </div>
+      </div>
+
+      <div style="background: var(--bg-card); padding: 1rem 1.5rem; border-bottom-left-radius: var(--radius-md); border-bottom-right-radius: var(--radius-md); display: flex; justify-content: flex-end; gap: 1rem; border-top: 1px solid var(--border-color);">
+        <button type="button" class="btn btn-secondary" onclick="document.getElementById('invoice-modal').classList.remove('active')">Close Preview</button>
+        <button type="button" class="btn btn-primary" onclick="window.print()">🖨️ Print Invoice / Save PDF</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/layout.js"></script>
+  <script src="js/challans.js"></script>
+</body>
+</html>

@@ -1,0 +1,439 @@
+{
+	"info": {
+		"_postman_id": "mini-erp-crm-postman-collection",
+		"name": "Mini ERP + CRM Operations Portal API",
+		"description": "Complete REST API collection for Mini ERP + CRM Operations Portal built with Node.js, Express, TypeScript, and Supabase.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:5000/api",
+			"type": "string"
+		},
+		{
+			"key": "authToken",
+			"value": "",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "1. Authentication",
+			"item": [
+				{
+					"name": "Login (Admin)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.token) {",
+									"    pm.collectionVariables.set('authToken', jsonData.token);",
+									"    console.log('Saved token:', jsonData.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"admin@company.com\",\n  \"password\": \"admin123\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					}
+				},
+				{
+					"name": "Login (Sales)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"sales@company.com\",\n  \"password\": \"admin123\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Current User Profile",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/auth/me",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"me"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "2. Customer CRM Module",
+			"item": [
+				{
+					"name": "Get All Customers (Search & Filter)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/customers?search=&status=&type=&page=1&limit=20",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"customers"
+							],
+							"query": [
+								{ "key": "search", "value": "" },
+								{ "key": "status", "value": "" },
+								{ "key": "type", "value": "" },
+								{ "key": "page", "value": "1" },
+								{ "key": "limit", "value": "20" }
+							]
+						}
+					}
+				},
+				{
+					"name": "Create Customer",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Vikram Malhotra\",\n  \"business_name\": \"Malhotra Enterprises\",\n  \"mobile\": \"+919812345678\",\n  \"email\": \"vikram@malhotra.com\",\n  \"customer_type\": \"Wholesale\",\n  \"status\": \"Active\",\n  \"notes\": \"Interested in bulk hardware orders.\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/customers",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"customers"
+							]
+						}
+					}
+				},
+				{
+					"name": "Add Follow-up Note",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"note\": \"Discussed Q3 pricing options over call.\",\n  \"follow_up_date\": \"2026-08-25\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/customers/:id/notes",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"customers",
+								":id",
+								"notes"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "REPLACE_WITH_CUSTOMER_ID"
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "3. Product & Inventory Module",
+			"item": [
+				{
+					"name": "Get All Products (Low Stock Filter)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/products?search=&low_stock=false&page=1&limit=20",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products"
+							],
+							"query": [
+								{ "key": "search", "value": "" },
+								{ "key": "low_stock", "value": "false" },
+								{ "key": "page", "value": "1" },
+								{ "key": "limit", "value": "20" }
+							]
+						}
+					}
+				},
+				{
+					"name": "Create Product",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Heavy Duty Electric Motor M500\",\n  \"sku\": \"MTR-ELE-500\",\n  \"category\": \"Machinery\",\n  \"unit_price\": 18500.00,\n  \"current_stock\": 15,\n  \"min_stock_alert\": 5,\n  \"location\": \"Warehouse Rack A2\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/products",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					}
+				},
+				{
+					"name": "Manual Stock Adjustment (IN/OUT)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"movement_type\": \"IN\",\n  \"quantity\": 25,\n  \"reason\": \"Received supplier shipment PO #9812\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/products/:id/stock",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products",
+								":id",
+								"stock"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "REPLACE_WITH_PRODUCT_ID"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Product Stock Movement Logs",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/products/:id/movements",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"products",
+								":id",
+								"movements"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "REPLACE_WITH_PRODUCT_ID"
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "4. Sales Challan Module",
+			"item": [
+				{
+					"name": "Get All Challans",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/challans?status=&page=1&limit=20",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"challans"
+							],
+							"query": [
+								{ "key": "status", "value": "" },
+								{ "key": "page", "value": "1" },
+								{ "key": "limit", "value": "20" }
+							]
+						}
+					}
+				},
+				{
+					"name": "Create Sales Challan (Confirmed)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"customer_id\": \"REPLACE_WITH_CUSTOMER_ID\",\n  \"items\": [\n    {\n      \"product_id\": \"REPLACE_WITH_PRODUCT_ID\",\n      \"quantity\": 2\n    }\n  ],\n  \"status\": \"Confirmed\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/challans",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"challans"
+							]
+						}
+					}
+				},
+				{
+					"name": "Update Challan Status (Confirm or Cancel)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"Confirmed\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/challans/:id/status",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"challans",
+								":id",
+								"status"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "REPLACE_WITH_CHALLAN_ID"
+								}
+							]
+						}
+					}
+				}
+			]
+		}
+	]
+}
