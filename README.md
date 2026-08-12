@@ -1,142 +1,49 @@
-# FUNDSROOM ERP — Wholesale Operations Platform
+# ERP + CRM Operations Portal
 
-A modern, cinematic, high-performance **ERP & CRM Platform** tailored for wholesale and distribution businesses. Fundsroom ERP provides end-to-end operational visibility across **Customer CRM**, **Inventory Catalog & Stock Health**, **Sales Delivery Challans**, **GST Invoicing**, and **Financial Control Analytics** with role-based security.
+## Tech Stack
+Backend: Node.js, TypeScript, Express.js, Supabase (PostgreSQL)
+Frontend: HTML, CSS, JavaScript, GSAP
 
----
+## Architecture
+The system follows a decoupled REST API architecture where an Express.js server written in TypeScript handles business logic and communicates directly with a Supabase PostgreSQL database using the Supabase Service Role client. Authentication is powered by JSON Web Tokens (JWT), with role-based access control (RBAC) enforced via custom Express middleware (`auth.ts`) for four key operational roles: Admin, Sales, Warehouse, and Accounts. The frontend is built with vanilla HTML/CSS/JavaScript with GSAP for animations, communicating asynchronously with the REST API using a centralized fetch module (`api.js`).
 
-## 🎨 Visual Identity & Theme System
+## Local Setup
+1. Clone repo: `git clone <repository-url>`
+2. Backend: `cd backend && npm install`
+3. Copy `.env.example` to `.env` in the `backend/` directory, fill in Supabase URL/key + JWT secret
+4. Run `schema.sql` in Supabase SQL Editor to create tables (`users`, `customers`, `products`, `challans`, `stock_movements`)
+5. Seed users: `npx ts-node seed.ts` (or `npm run seed`) inside the `backend/` folder
+6. Start backend: `npm run dev` (launches server on `http://localhost:5000`)
+7. Frontend: open `frontend/index.html` in browser (or use Live Server / `npx serve frontend -p 3000`)
 
-- **Primary Background**: Warm Ivory / Off-White (`#FAF8F5`)
-- **Primary Brand Color**: Deep Burgundy / Maroon (`#5A1020`)
-- **Secondary Brand Color**: Maroon (`#7A1F32`)
-- **Muted Accent**: Muted Bronze / Amber (`#9A5A32`)
-- **Neutral Borders & Cards**: Soft Warm Neutral (`#E9DED7`) & Pure White (`#FFFFFF`)
-- **Typography**: Google Fonts **Bebas Neue** (Headings & Metrics) & **Inter** (UI Elements & Body)
+## Environment Variables
+- `PORT`: The port number on which the backend Express REST API server runs (default: `5000`).
+- `SUPABASE_URL`: The HTTPS URL of your Supabase project instance connected to PostgreSQL database.
+- `SUPABASE_SERVICE_ROLE_KEY`: Secret service role API key granting full backend administrative permissions to bypass table Row Level Security.
+- `JWT_SECRET`: Secret key used for signing and verifying JSON Web Tokens issued during user authentication.
 
----
+## Deployment
+Backend deployed on: `https://fundsroom-erp-backend.onrender.com`
+Frontend deployed on: `https://fundsroom-erp.vercel.app`
+How deployment was done:
+The Node.js Express backend was deployed to Render/Railway as a Web Service configured with root directory `backend`, build command `npm install && npm run build`, and start command `npm start`. The static frontend was deployed to Vercel/Netlify with static rewrites and automatic API URL resolution in `frontend/js/api.js`.
 
-## 🛠️ Technology Stack
+## Test Credentials
+- `admin@erp.com` / `admin123` (Admin) [alias: `admin@company.com`]
+- `sales@erp.com` / `admin123` (Sales) [alias: `sales@company.com`]
+- `warehouse@erp.com` / `admin123` (Warehouse) [alias: `warehouse@company.com`]
+- `accounts@erp.com` / `admin123` (Accounts) [alias: `accounts@company.com`]
 
-- **Frontend**: HTML5, Vanilla CSS3 (Custom Design System with CSS Variables), JavaScript (ES6+), GSAP (GreenSock Animation Platform with ScrollTrigger)
-- **Backend API**: Node.js, Express.js, TypeScript, Zod Schema Validation, JSON Web Tokens (JWT), Bcrypt.js
-- **Database**: Supabase PostgreSQL (`@supabase/supabase-js` service role client)
-- **Deployment**:
-  - **Backend**: Railway (Node.js Express backend)
-  - **Frontend**: Vercel Static Hosting (`vercel.json` routing configuration)
+## API Documentation
+See `postman_collection.json` in repo root, or link below. Includes endpoints for Authentication (`/api/auth`), Customer CRM (`/api/customers`), Inventory Catalog & Stock Movements (`/api/products`), and Sales Delivery Challans (`/api/challans`).
 
----
+## Known Limitations
+- Frontend built in vanilla JS instead of React (time constraint) — all required functionality (dynamic data fetching, modal forms, status filtering, table pagination, role-based view permissions, printable GST invoice rendering) is fully implemented.
+- Offline caching is not supported; live database API access is required for full functionality.
+- Automated external SMS/Email notification delivery is omitted (invoices can be printed or saved to PDF via browser print API).
 
-## 🚀 Key Application Pages & Features
-
-### 1. Cinematic Welcome Landing Page (`index.html`)
-- **Full-Width Hero Video**: Ambient background video with play/pause and mute/unmute audio controls.
-- **Interactive Micro-Animations**: Cursor-tracking radial glow (`glow-card`), 3D perspective mouse tilt (`tilt-card`), and infinite marquee scrolling bands.
-- **6-Step Interactive Business Workflow**: Numbered process grid (`01-06`) covering Customer CRM, Product Catalog, Inventory Health, Sales Challans, GST Invoices, and Payment Reconciliation.
-- **Live Interactive Product Experience Preview**: Embedded interactive dashboard mockup.
-
-### 2. Authentication Portal (`login.html`)
-- **2-Column Fintech Layout**: Left-side media card with video timer (`00:03 / 00:06`), play/pause controls, and right-side authentication form.
-- **Password Controls & Quick Test Roles**: Eye icon toggle, remember me checkbox, Google SSO option, and 4 one-click test role login buttons (`Admin`, `Sales`, `Warehouse`, `Accounts`).
-
-### 3. Executive Control Room Dashboard (`dashboard.html`)
-- **Financial KPI Cards**: Today's Sales, Month's Revenue, Customer Count, and Low Stock Alerts computed dynamically from live database records.
-- **Revenue Flow Bar Chart**: Visual monthly revenue comparison with deep burgundy highlight bar.
-- **ERP Transactions Widget**: Real wholesale client payments (`Apex Global Logistics`, `Malhotra Enterprises`) and stock replenishment entries.
-- **Recent Sales Challans & Low Stock Tables**: Real-time tables connected directly to PostgreSQL database endpoints.
-
-### 4. Core Admin ERP Modules
-- **Customer CRM (`customers.html`)**: Manage wholesale accounts, lead statuses (`Lead`, `Active`, `Inactive`), client types (`Wholesale`, `Distributor`, `Retailer`), and follow-up notes.
-- **Products & Inventory (`products.html`)**: SKU tracking, wholesale unit pricing, warehouse rack locations, manual stock adjustments (IN/OUT), and low-stock alert badges.
-- **Sales Challans (`challans.html`)**: Multi-item delivery challan generator with automatic inventory stock reservation, status workflow (`Draft` → `Confirmed` → `Cancelled`), and print-ready official GST invoices.
-
----
-
-## 📁 Project File Structure
-
-```text
-Fundsroom/
-├── backend/
-│   ├── src/
-│   │   ├── middleware/
-│   │   │   └── auth.ts            # JWT authentication & role guard middleware
-│   │   ├── routes/
-│   │   │   ├── auth.ts            # Authentication endpoints (/api/auth/login, /me)
-│   │   │   ├── customers.ts       # Customer CRM CRUD & follow-up notes
-│   │   │   ├── products.ts        # Products catalog & inventory adjustments
-│   │   │   └── challans.ts        # Sales delivery challans & stock deduction
-│   │   ├── index.ts               # Express application server entrypoint
-│   │   ├── supabaseClient.ts      # Supabase PostgreSQL client initialization
-│   │   └── validators/
-│   │       └── index.ts           # Zod schema validation rules
-│   ├── .env                       # Environment variables
-│   ├── package.json               # Backend dependencies & npm scripts
-│   ├── schema.sql                 # PostgreSQL DDL script for Supabase
-│   └── seed.ts                    # Database seed script for test accounts
-│
-├── frontend/
-│   ├── assets/                    # Media assets & background videos
-│   ├── css/
-│   │   ├── style.css              # Main unified admin portal stylesheet
-│   │   ├── dashboard.css          # Executive dashboard control room stylesheet
-│   │   ├── login.css              # Standalone authentication page stylesheet
-│   │   └── welcome.css            # Cinematic landing page stylesheet
-│   ├── js/
-│   │   ├── api.js                 # Centralized fetch wrapper with JWT token handling
-│   │   ├── auth.js                # Login page handler & role quick logins
-│   │   ├── dashboard.js           # Live database analytics computation & UI updates
-│   │   ├── layout.js              # Dynamic sidebar injection & navigation
-│   │   ├── welcome.js            # Landing page GSAP animations & video controls
-│   │   ├── customers.js           # Customer CRM page logic & modal popups
-│   │   ├── products.js            # Products & inventory management page logic
-│   │   └── challans.js            # Sales Challan builder & print invoice renderer
-│   ├── index.html                 # Welcome Landing Page
-│   ├── login.html                 # Authentication Portal Page
-│   ├── dashboard.html             # Executive Control Room Dashboard Page
-│   ├── customers.html             # Customer CRM Page
-│   ├── products.html              # Products & Inventory Page
-│   └── challans.html              # Sales Challans Page
-│
-├── vercel.json                    # Vercel deployment routing configuration
-└── README.md                      # Comprehensive project documentation
-```
-
----
-
-## 🔑 Test Login Credentials
-
-| Role | Email | Password | Access Scope |
-| :--- | :--- | :--- | :--- |
-| **System Admin** | `admin@company.com` | `admin123` | Full access across all ERP modules |
-| **Sales Manager** | `sales@company.com` | `admin123` | Customer CRM, Create Sales Challans, Add Notes |
-| **Warehouse Supervisor** | `warehouse@company.com` | `admin123` | Product Catalog, Stock Adjustments, Movement History |
-| **Accounts Executive** | `accounts@company.com` | `admin123` | Read-only view for Challans, Financial Analytics & Ledger |
-
----
-
-## ⚡ Quick Start & Local Development
-
-### 1. Prerequisites
-- **Node.js**: v18.x or higher
-- **Supabase Account**: PostgreSQL database instance created at [supabase.com](https://supabase.com)
-
-### 2. Backend Setup & Run
-```bash
-cd backend
-npm install
-npm run seed  # Seed initial test role accounts
-npm run dev   # Start API server on http://localhost:5000
-```
-
-### 3. Frontend Local Access
-Serve the `frontend/` directory using any local web server or open `index.html` directly in your browser:
-```bash
-# Example using Node static server or VS Code Live Server
-npx serve frontend -p 3000
-```
-Open `http://localhost:3000/index.html` (or `http://localhost:5000/` if Express static hosting is active).
-
----
-
-## 📜 License & Copyright
-
-&copy; 2026 **Fundsroom ERP**. All rights reserved. Built for wholesale and distribution operations.
+## Assumptions
+- **Role Permissions Scope**: Admin has full system permissions; Sales Manager manages customers and creates sales delivery challans; Warehouse Supervisor manages product catalog and stock IN/OUT movements; Accounts Executive has read-only access for financial auditing and invoice ledgers.
+- **Stock Reservation**: Automated inventory deduction occurs when a Sales Delivery Challan is confirmed (`Draft` → `Confirmed`).
+- **Single Currency**: All prices and financial KPI analytics assume Indian Rupees (`₹`) formatted for B2B distribution operations.
+- **Application Security**: Database Row Level Security (RLS) is turned off in favor of application-level JWT middleware role checks inside the Express API.
