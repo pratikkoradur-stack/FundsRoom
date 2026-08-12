@@ -11,8 +11,8 @@ router.get('/', authenticateToken, async (req: AuthRequest, res: Response) => {
     const status = req.query.status as string;
     const customerId = req.query.customer_id as string;
     const search = req.query.search as string;
-    const page = parseInt(req.query.page as string || '1', 10);
-    const limit = parseInt(req.query.limit as string || '20', 10);
+    const page = Math.max(1, parseInt(req.query.page as string || '1', 10));
+    const limit = Math.min(100, Math.max(1, parseInt(req.query.limit as string || '20', 10)));
     const offset = (page - 1) * limit;
 
     let query = supabase

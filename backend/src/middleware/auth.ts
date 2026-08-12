@@ -18,11 +18,16 @@ export const authenticateToken = (req: AuthRequest, res: Response, next: NextFun
     return res.status(401).json({ error: 'Access token required' });
   }
 
-  const jwtSecret = process.env.JWT_SECRET || 'fallback-secret';
+  // JWT_SECRET is guaranteed to be set — index.ts guards against missing value at startup.
+  const jwtSecret = process.env.JWT_SECRET as string;
 
   jwt.verify(token, jwtSecret, (err, decoded) => {
     if (err) {
-      return res.status(403).json({ error: 'Invalid or expired token' });
+      // Distinguish between expired and completely invalid tokens
+      if (err.name === 'TokenExpiredError') {
+        return res.status(401).json({ error: 'Session expired. Please log in again.' });
+      }
+      return res.status(403).json({ error: 'Invalid token. Access denied.' });
     }
     req.user = decoded as AuthRequest['user'];
     next();
@@ -36,7 +41,7 @@ export const requireRole = (allowedRoles: Array<'admin' | 'sales' | 'warehouse' 
     }
 
     if (!allowedRoles.includes(req.user.role)) {
-      return res.status(403).json({ error: `Access denied. Requires one of roles: ${allowedRoles.join(', ')}` });
+      return res.status(403).json({ error: `Access denied. Required role: ${allowedRoles.join(' or ')}` });
     }
 
     next();

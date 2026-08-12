@@ -4,11 +4,13 @@ import jwt from 'jsonwebtoken';
 import { supabase } from '../supabaseClient';
 import { authenticateToken, AuthRequest } from '../middleware/auth';
 import { loginSchema } from '../validators';
+import { loginRateLimiter } from '../middleware/rateLimiter';
 
 const router = Router();
 
-// POST /api/auth/login - Authenticate user & issue JWT
-router.post('/login', async (req: Request, res: Response) => {
+// POST /api/auth/login — Authenticate user & issue JWT
+// Strict rate limit applied: 10 attempts per IP per 15-minute window.
+router.post('/login', loginRateLimiter, async (req: Request, res: Response) => {
   try {
     const parseResult = loginSchema.safeParse(req.body);
     if (!parseResult.success) {
@@ -26,12 +28,13 @@ router.post('/login', async (req: Request, res: Response) => {
       .eq('email', email)
       .single();
 
-    if (error || !user) {
-      return res.status(401).json({ error: 'Invalid email or password' });
-    }
+    // Use a constant-time comparison path: always run bcrypt.compare even on
+    // "user not found" to prevent user-enumeration via timing attacks.
+    const dummyHash = '$2a$10$abcdefghijklmnopqrstuvuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu';
+    const hashToCompare = user ? user.password : dummyHash;
+    const validPassword = await bcrypt.compare(password, hashToCompare);
 
-    const validPassword = await bcrypt.compare(password, user.password);
-    if (!validPassword) {
+    if (error || !user || !validPassword) {
       return res.status(401).json({ error: 'Invalid email or password' });
     }
 
@@ -42,7 +45,8 @@ router.post('/login', async (req: Request, res: Response) => {
       role: user.role,
     };
 
-    const jwtSecret = process.env.JWT_SECRET || 'fallback-secret';
+    // JWT_SECRET is guaranteed set — startup guard in index.ts prevents missing secret.
+    const jwtSecret = process.env.JWT_SECRET as string;
     const token = jwt.sign(tokenPayload, jwtSecret, { expiresIn: '24h' });
 
     return res.json({
@@ -56,11 +60,13 @@ router.post('/login', async (req: Request, res: Response) => {
       },
     });
   } catch (err: any) {
-    return res.status(500).json({ error: err.message || 'Internal server error' });
+    // Do not expose internal error details to the client
+    console.error('[Auth] Login error:', err.message);
+    return res.status(500).json({ error: 'An internal server error occurred.' });
   }
 });
 
-// GET /api/auth/me - Get current logged-in user profile
+// GET /api/auth/me — Get current logged-in user profile
 router.get('/me', authenticateToken, (req: AuthRequest, res: Response) => {
   return res.json({ user: req.user });
 });
