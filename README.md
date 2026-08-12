@@ -23,10 +23,10 @@ The system follows a decoupled REST API architecture where an Express.js server 
 - `JWT_SECRET`: Secret key used for signing and verifying JSON Web Tokens issued during user authentication.
 
 ## Deployment
-Backend deployed on: `https://fundsroom-erp-backend.onrender.com`
+Backend deployed on: `https://railway.com`
 Frontend deployed on: `https://fundsroom-erp.vercel.app`
 How deployment was done:
-The Node.js Express backend was deployed to Render/Railway as a Web Service configured with root directory `backend`, build command `npm install && npm run build`, and start command `npm start`. The static frontend was deployed to Vercel/Netlify with static rewrites and automatic API URL resolution in `frontend/js/api.js`.
+The Node.js Express backend was deployed to Railway as a Web Service configured with root directory `backend`, build command `npm install && npm run build`, and start command `npm start`. The static frontend was deployed to Vercel/Netlify with static rewrites and automatic API URL resolution in `frontend/js/api.js`.
 
 ## Test Credentials
 - `admin@erp.com` / `admin123` (Admin) [alias: `admin@company.com`]
